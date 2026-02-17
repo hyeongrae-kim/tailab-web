@@ -1,18 +1,17 @@
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
+import type {AppMessages} from "@/i18n/messages";
 
-export function HomeIntro() {
+type HomeIntroProps = {
+  messages: AppMessages["home"];
+};
+
+export function HomeIntro({ messages }: HomeIntroProps) {
   return (
-    <Section
-      title="About Us"
-      description="Tailab focuses on applied AI systems, trustworthy ML, and human-centered computing."
-    >
+    <Section title={messages.aboutTitle} description={messages.aboutDescription}>
       <div className="space-y-4 text-slate-700">
-        <p>
-          This website is powered by Notion as CMS. Lab members can maintain profiles, publications, and announcements
-          directly in Notion databases.
-        </p>
-        <Button href="/research">Explore Research</Button>
+        <p>{messages.aboutBody}</p>
+        <Button href="/research">{messages.exploreResearch}</Button>
       </div>
     </Section>
   );

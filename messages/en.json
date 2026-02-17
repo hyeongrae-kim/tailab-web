@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "siteTitle": "Tailab Homepage",
+    "siteDescription": "Graduate research lab website powered by Next.js and Notion CMS."
+  },
+  "nav": {
+    "home": "Home",
+    "professor": "Professor",
+    "members": "Members",
+    "research": "Research",
+    "publications": "Publications",
+    "news": "News",
+    "gallery": "Gallery",
+    "apply": "Apply"
+  },
+  "layout": {
+    "researchLab": "Research Lab",
+    "builtWith": "Built with Next.js + Notion CMS",
+    "languageLabel": "Language",
+    "languageNames": {
+      "ko": "한국어",
+      "en": "English"
+    }
+  },
+  "common": {
+    "tba": "TBA"
+  },
+  "home": {
+    "title": "Home",
+    "description": "See the latest news and lab introduction.",
+    "aboutTitle": "About Us",
+    "aboutDescription": "Tailab focuses on applied AI systems, trustworthy ML, and human-centered computing.",
+    "aboutBody": "This website is powered by Notion as CMS. Lab members can maintain profiles, publications, and announcements directly in Notion databases.",
+    "exploreResearch": "Explore Research",
+    "latestNewsTitle": "Latest News",
+    "latestNewsDescription": "Recent updates from the lab.",
+    "noNews": "No news has been published yet."
+  },
+  "professor": {
+    "title": "Professor",
+    "description": "Professor CV and profile.",
+    "noProfile": "No profile is available yet.",
+    "roleFallback": "Professor",
+    "emailLabel": "Email",
+    "education": "Education",
+    "experience": "Experience"
+  },
+  "members": {
+    "title": "Members",
+    "description": "Current lab members and alumni.",
+    "sectionDescription": "PhD, MS, BS, and alumni profiles.",
+    "noData": "No member data found. Connect your Notion Members DB.",
+    "roleFallback": "Role TBD"
+  },
+  "research": {
+    "title": "Research",
+    "description": "Research topics and directions.",
+    "sectionDescription": "Core research topics in the lab.",
+    "noData": "No research data found. Connect your Notion Research DB."
+  },
+  "publications": {
+    "title": "Publications",
+    "description": "Journal and conference publications.",
+    "sectionDescription": "Journal, conference, and workshop papers.",
+    "noData": "No publication data found. Connect your Notion Publications DB.",
+    "doiLabel": "DOI"
+  },
+  "news": {
+    "title": "News",
+    "description": "Lab news and announcements.",
+    "sectionDescription": "All announcements from the lab.",
+    "noData": "No news data found. Connect your Notion News DB.",
+    "pinned": "Pinned",
+    "detailFallbackDescription": "Lab news detail page.",
+    "noDetailContent": "Detailed block content will appear here once Notion data is connected."
+  },
+  "gallery": {
+    "title": "Gallery",
+    "description": "Lab photos and events gallery.",
+    "sectionDescription": "Photos from seminars, conferences, and lab events.",
+    "noData": "No gallery items available."
+  },
+  "apply": {
+    "title": "Apply",
+    "description": "Application guide for prospective students.",
+    "sectionDescription": "Prospective students and collaborators are welcome.",
+    "intro": "Application details can be managed in Notion and rendered here. For now, use this page as a template and replace it with your official process.",
+    "checklist": [
+      "Include your CV and transcript.",
+      "Share your research interests and relevant projects.",
+      "Contact the professor by email with your background summary."
+    ]
+  }
+}

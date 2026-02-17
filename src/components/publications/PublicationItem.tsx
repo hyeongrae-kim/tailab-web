@@ -1,6 +1,11 @@
 import type { Publication } from "@/types";
 
-export function PublicationItem({ item }: { item: Publication }) {
+type PublicationItemProps = {
+  item: Publication;
+  doiLabel: string;
+};
+
+export function PublicationItem({ item, doiLabel }: PublicationItemProps) {
   return (
     <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
       <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
@@ -16,7 +21,7 @@ export function PublicationItem({ item }: { item: Publication }) {
           rel="noreferrer"
           className="mt-3 inline-block text-sm font-medium text-blue-700 hover:underline"
         >
-          DOI: {item.doi}
+          {doiLabel}: {item.doi}
         </a>
       ) : null}
     </article>

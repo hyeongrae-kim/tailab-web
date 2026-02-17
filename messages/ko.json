@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "siteTitle": "Tailab 홈페이지",
+    "siteDescription": "Next.js와 Notion CMS로 구축한 대학원 연구실 홈페이지입니다."
+  },
+  "nav": {
+    "home": "홈",
+    "professor": "교수",
+    "members": "구성원",
+    "research": "연구",
+    "publications": "논문",
+    "news": "뉴스",
+    "gallery": "갤러리",
+    "apply": "지원 안내"
+  },
+  "layout": {
+    "researchLab": "연구실",
+    "builtWith": "Next.js + Notion CMS로 구축됨",
+    "languageLabel": "언어",
+    "languageNames": {
+      "ko": "한국어",
+      "en": "English"
+    }
+  },
+  "common": {
+    "tba": "미정"
+  },
+  "home": {
+    "title": "홈",
+    "description": "최신 뉴스와 연구실 소개를 확인하세요.",
+    "aboutTitle": "연구실 소개",
+    "aboutDescription": "Tailab은 응용 AI 시스템, 신뢰할 수 있는 ML, 인간 중심 컴퓨팅을 연구합니다.",
+    "aboutBody": "이 사이트는 Notion을 CMS로 사용합니다. 연구실 구성원은 Notion 데이터베이스에서 프로필, 논문, 공지사항을 직접 관리할 수 있습니다.",
+    "exploreResearch": "연구 분야 보기",
+    "latestNewsTitle": "최신 뉴스",
+    "latestNewsDescription": "연구실의 최근 소식입니다.",
+    "noNews": "아직 등록된 뉴스가 없습니다."
+  },
+  "professor": {
+    "title": "교수",
+    "description": "교수 CV 및 프로필 페이지입니다.",
+    "noProfile": "아직 프로필이 등록되지 않았습니다.",
+    "roleFallback": "교수",
+    "emailLabel": "이메일",
+    "education": "학력",
+    "experience": "경력"
+  },
+  "members": {
+    "title": "구성원",
+    "description": "재학생 및 졸업생 구성원 목록입니다.",
+    "sectionDescription": "PhD, MS, BS 및 졸업생 프로필",
+    "noData": "구성원 데이터가 없습니다. Notion Members DB를 연결해주세요.",
+    "roleFallback": "직책 미정"
+  },
+  "research": {
+    "title": "연구",
+    "description": "연구 분야와 주제를 소개합니다.",
+    "sectionDescription": "연구실 핵심 연구 주제",
+    "noData": "연구 데이터가 없습니다. Notion Research DB를 연결해주세요."
+  },
+  "publications": {
+    "title": "논문",
+    "description": "저널 및 학회 논문 목록입니다.",
+    "sectionDescription": "저널, 학회, 워크숍 논문 목록",
+    "noData": "논문 데이터가 없습니다. Notion Publications DB를 연결해주세요.",
+    "doiLabel": "DOI"
+  },
+  "news": {
+    "title": "뉴스",
+    "description": "연구실 뉴스와 공지사항입니다.",
+    "sectionDescription": "연구실 공지 전체 목록",
+    "noData": "뉴스 데이터가 없습니다. Notion News DB를 연결해주세요.",
+    "pinned": "고정",
+    "detailFallbackDescription": "연구실 뉴스 상세 페이지입니다.",
+    "noDetailContent": "Notion 데이터가 연결되면 상세 블록 콘텐츠가 표시됩니다."
+  },
+  "gallery": {
+    "title": "갤러리",
+    "description": "세미나, 학회, 연구실 행사 사진입니다.",
+    "sectionDescription": "연구실 활동 사진 모음",
+    "noData": "갤러리 항목이 없습니다."
+  },
+  "apply": {
+    "title": "지원 안내",
+    "description": "예비 지원자를 위한 안내 페이지입니다.",
+    "sectionDescription": "예비 대학원생과 협업 연구자를 환영합니다.",
+    "intro": "지원 관련 안내 문구는 Notion에서 관리하고 이 페이지에 렌더링할 수 있습니다. 현재는 예시 템플릿으로 제공되며, 실제 지원 절차에 맞게 교체하세요.",
+    "checklist": [
+      "CV와 성적표를 준비하세요.",
+      "관심 연구 분야와 관련 프로젝트를 정리하세요.",
+      "배경과 관심사를 요약해 교수님 이메일로 연락하세요."
+    ]
+  }
+}

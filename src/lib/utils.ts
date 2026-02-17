@@ -2,9 +2,13 @@ export function cx(...classNames: Array<string | false | null | undefined>): str
   return classNames.filter(Boolean).join(" ");
 }
 
-export function formatDate(dateString: string | null | undefined): string {
+export function formatDate(
+  dateString: string | null | undefined,
+  locale = "en-US",
+  emptyLabel = "TBA",
+): string {
   if (!dateString) {
-    return "TBA";
+    return emptyLabel;
   }
 
   const date = new Date(dateString);
@@ -12,7 +16,7 @@ export function formatDate(dateString: string | null | undefined): string {
     return dateString;
   }
 
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat(locale, {
     year: "numeric",
     month: "short",
     day: "numeric",

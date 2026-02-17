@@ -1,10 +1,18 @@
 import Image from "next/image";
+import { toDateLocale, type Locale } from "@/i18n/config";
 import { formatDate } from "@/lib/utils";
 import type { GalleryItem } from "@/types";
 
-export function GalleryGrid({ items }: { items: GalleryItem[] }) {
+type GalleryGridProps = {
+  items: GalleryItem[];
+  locale: Locale;
+  noDataLabel: string;
+  tbaLabel: string;
+};
+
+export function GalleryGrid({ items, locale, noDataLabel, tbaLabel }: GalleryGridProps) {
   if (items.length === 0) {
-    return <p className="text-sm text-slate-600">No gallery items available.</p>;
+    return <p className="text-sm text-slate-600">{noDataLabel}</p>;
   }
 
   return (
@@ -21,7 +29,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
             )}
             <div className="p-4">
               <h3 className="text-base font-semibold text-slate-900">{item.title}</h3>
-              <p className="mt-1 text-xs text-slate-500">{formatDate(item.date)}</p>
+              <p className="mt-1 text-xs text-slate-500">{formatDate(item.date, toDateLocale(locale), tbaLabel)}</p>
               {item.description ? <p className="mt-2 text-sm text-slate-700">{item.description}</p> : null}
             </div>
           </article>

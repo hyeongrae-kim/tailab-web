@@ -2,7 +2,6 @@ export const SITE_NAME = "Tailab";
 export const ISR_SECONDS = 3600;
 
 export type NavItemKey =
-  | "home"
   | "professor"
   | "members"
   | "research"
@@ -17,7 +16,6 @@ export type NavItem = {
 };
 
 export const NAV_ITEMS: NavItem[] = [
-  { href: "/", key: "home" },
   { href: "/professor", key: "professor" },
   { href: "/members", key: "members" },
   { href: "/research", key: "research" },

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HomeHero } from "@/components/home/HomeHero";
 import { HomeIntro } from "@/components/home/HomeIntro";
 import { LatestNews } from "@/components/home/LatestNews";
 import {validateLocale} from "@/i18n/locale";
@@ -29,15 +30,18 @@ export default async function HomePage({ params }: LocalePageProps) {
   const latestNews = await getNews(5);
 
   return (
-    <div className="space-y-6">
-      <LatestNews
-        items={latestNews}
-        locale={locale}
-        messages={messages.home}
-        pinnedLabel={messages.news.pinned}
-        tbaLabel={messages.common.tba}
-      />
-      <HomeIntro messages={messages.home} />
+    <div className="-mt-8 space-y-0">
+      <HomeHero locale={locale} />
+      <div className="space-y-6">
+        <LatestNews
+          items={latestNews}
+          locale={locale}
+          messages={messages.home}
+          pinnedLabel={messages.news.pinned}
+          tbaLabel={messages.common.tba}
+        />
+        <HomeIntro messages={messages.home} />
+      </div>
     </div>
   );
 }

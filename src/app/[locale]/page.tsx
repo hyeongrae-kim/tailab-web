@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { HomeHero } from "@/components/home/HomeHero";
-import { HomeIntro } from "@/components/home/HomeIntro";
+import { CoreResearchThemes } from "@/components/home/CoreResearchThemes";
 import { LatestNews } from "@/components/home/LatestNews";
-import {validateLocale} from "@/i18n/locale";
-import {getMessages} from "@/i18n/getMessages";
-import { getNews } from "@/lib/notion";
+import { validateLocale } from "@/i18n/locale";
+import { getMessages } from "@/i18n/getMessages";
+import { getLatestMockNews } from "@/mocks/news";
 
 type LocalePageProps = {
   params: Promise<{ locale: string }>;
@@ -12,7 +12,9 @@ type LocalePageProps = {
 
 export const revalidate = 3600;
 
-export async function generateMetadata({ params }: LocalePageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: LocalePageProps): Promise<Metadata> {
   const { locale: localeParam } = await params;
   const locale = validateLocale(localeParam);
   const messages = await getMessages(locale);
@@ -27,20 +29,14 @@ export default async function HomePage({ params }: LocalePageProps) {
   const { locale: localeParam } = await params;
   const locale = validateLocale(localeParam);
   const messages = await getMessages(locale);
-  const latestNews = await getNews(5);
+  const latestNews = getLatestMockNews(3);
 
   return (
-    <div className="-mt-8 space-y-0">
+    <div className="-mt-8 -mb-8 space-y-0">
       <HomeHero locale={locale} />
+      <CoreResearchThemes messages={messages.home} />
       <div className="space-y-6">
-        <LatestNews
-          items={latestNews}
-          locale={locale}
-          messages={messages.home}
-          pinnedLabel={messages.news.pinned}
-          tbaLabel={messages.common.tba}
-        />
-        <HomeIntro messages={messages.home} />
+        <LatestNews items={latestNews} messages={messages.home} />
       </div>
     </div>
   );

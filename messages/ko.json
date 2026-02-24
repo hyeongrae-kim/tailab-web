@@ -13,6 +13,11 @@
     "gallery": "갤러리",
     "apply": "지원 안내"
   },
+  "footer": {
+    "address": "41566 대구광역시 북구 대학로 80 경북대학교 영어영문학과 (대학원동 514호)",
+    "poweredBy": "Powered by Hyeongrae Kim",
+    "copyright": "ⓒ TAILAB, KNU. All rights Reserved."
+  },
   "layout": {
     "researchLab": "연구실",
     "builtWith": "Next.js + Notion CMS로 구축됨",
@@ -32,7 +37,23 @@
     "aboutDescription": "Tailab은 응용 AI 시스템, 신뢰할 수 있는 ML, 인간 중심 컴퓨팅을 연구합니다.",
     "aboutBody": "이 사이트는 Notion을 CMS로 사용합니다. 연구실 구성원은 Notion 데이터베이스에서 프로필, 논문, 공지사항을 직접 관리할 수 있습니다.",
     "exploreResearch": "연구 분야 보기",
+    "coreResearchTitle": "핵심 연구 주제",
+    "coreResearchThemes": [
+      {
+        "title": "Trustworthy AI",
+        "description": "신뢰할 수 있는 실제 환경 배치를 위해 투명하고 견고하며 정렬된 AI 시스템을 설계합니다."
+      },
+      {
+        "title": "Neural-Symbolic AI",
+        "description": "해석 가능하고 구조화된 지능을 위해 딥러닝과 기호 추론을 결합합니다."
+      },
+      {
+        "title": "Natural Language Processing",
+        "description": "언어 이해와 제어 가능한 텍스트 생성을 위한 고도화된 모델을 개발합니다."
+      }
+    ],
     "latestNewsTitle": "최신 뉴스",
+    "latestNewsViewAll": "더보기",
     "latestNewsDescription": "연구실의 최근 소식입니다.",
     "noNews": "아직 등록된 뉴스가 없습니다."
   },

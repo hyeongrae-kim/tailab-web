@@ -1,4 +1,3 @@
-import { SITE_NAME } from "@/constants";
 import type { AppMessages } from "@/i18n/messages";
 
 type FooterProps = {
@@ -7,12 +6,13 @@ type FooterProps = {
 
 export function Footer({ messages }: FooterProps) {
   return (
-    <footer className="mt-12 border-t border-slate-200 bg-white">
-      <div className="mx-auto flex w-full max-w-7xl flex-col items-start justify-between gap-2 px-4 py-6 text-sm text-slate-500 md:flex-row md:items-center">
-        <p>
-          {SITE_NAME} {messages.layout.researchLab}
-        </p>
-        <p>{messages.layout.builtWith}</p>
+    <footer className="border-t border-slate-200 bg-white">
+      <div className="mx-auto w-full max-w-7xl px-4 py-6 text-sm text-slate-500">
+        <div className="flex flex-col items-start">
+          <p>{messages.footer.address}</p>
+          <p className="mt-6">{messages.footer.poweredBy}</p>
+          <p className="mt-1">{messages.footer.copyright}</p>
+        </div>
       </div>
     </footer>
   );

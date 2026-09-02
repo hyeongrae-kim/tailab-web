@@ -46,3 +46,8 @@ Thumbs.db
 # ─── Claude Code (AI 도구 관련 — 리포에서 제외) ───
 .claude/
 CLAUDE.md
+
+
+# 세션 진행 메모 (개인용)
+Progress.md
+tsconfig.tsbuildinfo

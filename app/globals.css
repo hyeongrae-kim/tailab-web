@@ -35,11 +35,34 @@
 
 html, body { margin: 0; padding: 0; }
 
+/* 오버스크롤 시 드러나는 영역: 위는 헤더/본문 색, 아래는 footer 색.
+   방법 1) 캔버스 그라디언트 + 방법 2) 뷰포트 밖 고정 레이어(사파리 등 대응) */
+html {
+  background: linear-gradient(to bottom, var(--bg) 50%, var(--surface) 50%) fixed;
+  /* 크롬 등은 오버스크롤 영역을 단색으로만 칠해 색 분리가 불가 → 바운스 자체를 끔 */
+  overscroll-behavior: none;
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+body::before { top: -100vh; background: var(--bg); }
+body::after { bottom: -100vh; background: var(--surface); }
+
 body {
   font-family: 'Pretendard', -apple-system, sans-serif;
   color: var(--text);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
+  word-break: keep-all; /* 한글: 단어 중간에서 안 끊고 어절 단위로 줄바꿈 */
+  overflow-wrap: break-word; /* 긴 URL 등 공백 없는 문자열은 넘칠 때만 강제 줄바꿈 */
 }
 
 ::selection { background: var(--border); }
@@ -299,11 +322,11 @@ a { color: inherit; }
 }
 
 .hero__lede {
-  font-size: clamp(18px, 2.6vw, 26px);
+  font-size: clamp(16px, 2vw, 20px);
   line-height: 1.5;
   color: var(--text);
   font-weight: 500;
-  max-width: 20em;
+  max-width: 32em;
   margin: 0;
   letter-spacing: -0.01em;
 }
@@ -345,13 +368,14 @@ a { color: inherit; }
   font-size: clamp(28px, 4vw, 40px);
   font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1.15;
+  line-height: 1.3;
   margin: 0;
 }
 
 .section__eyebrow {
   font-family: ui-monospace, monospace;
   font-size: 12px;
+  line-height: 1;
   letter-spacing: 0.1em;
   color: var(--text-3);
   text-transform: uppercase;
@@ -364,6 +388,12 @@ a { color: inherit; }
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: clamp(40px, 6vw, 80px);
   align-items: start;
+}
+
+/* 2단일 때 오른쪽 열 첫 줄을 eyebrow가 아닌 제목 첫 줄에 맞춤(eyebrow 12px + 마진 12px) */
+.about__grid > * + * { padding-top: 24px; }
+@media (max-width: 640px) {
+  .about__grid > * + * { padding-top: 0; } /* 세로 스택이면 원복 */
 }
 
 .about__lead {
@@ -718,7 +748,7 @@ a { color: inherit; }
 
 .member-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   gap: clamp(20px, 3vw, 28px);
 }
 
@@ -745,6 +775,18 @@ a { color: inherit; }
 
 .member__role { font-size: 14px; color: var(--text-2); margin-top: 3px; }
 .member__note { font-size: 13px; color: var(--text-3); margin-top: 1px; }
+.member__email {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-2);
+  text-decoration: none;
+  margin-top: 4px;
+  word-break: break-all; /* 긴 이메일은 카드 안에서 줄바꿈 */
+}
+.member__email:hover { text-decoration: underline; text-underline-offset: 3px; }
+.member__email svg { flex-shrink: 0; }
 
 /* ===== PROFESSOR CV ===== */
 .breadcrumb {
@@ -764,8 +806,6 @@ a { color: inherit; }
 }
 
 .cv-aside {
-  position: sticky;
-  top: 96px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -1062,3 +1102,115 @@ a { color: inherit; }
   margin: 0 0 clamp(28px, 4vw, 40px);
 }
 .pub-count strong { color: var(--text); font-weight: 600; }
+
+/* ===== ABOUT / PEOPLE 추가 (draft 반영) ===== */
+/* 연구영역 3건: 넓은 화면 3열 고정 → 중간 1열 (auto-fill 의 2+1 고아 배치 회피) */
+.area-grid--three { grid-template-columns: repeat(3, 1fr); }
+/* 콘텐츠(bar·영문 소제목)가 우상단 숫자(top 20px + 76px) 아래에서 시작하도록 */
+.area-grid--three .area-card__inner { padding-top: 56px; }
+/* 제목을 2줄 높이로 고정 → 1·2번 카드(한 줄)도 본문 시작점이 3번 카드와 동일 */
+.area-grid--three .area-card__title { min-height: 2.6em; }
+@media (max-width: 900px) { .area-grid--three { grid-template-columns: 1fr; } }
+.subsection__en { font-size: 14px; font-style: italic; color: var(--text-3); margin: 8px 0 0; }
+/* 카드 제목 위 영문 소제목 — 홈 ABOUT US(eyebrow)와 동일 톤 */
+.area-card__eyebrow {
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+.project--single { grid-template-columns: 1fr; }
+
+.pi-card {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: clamp(20px, 3vw, 32px);
+  align-items: center;
+  padding: clamp(20px, 3vw, 28px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color .2s ease;
+}
+.pi-card:hover { border-color: var(--text-3); }
+.pi-card__photo { aspect-ratio: 1 / 1; border-radius: 10px; }
+.pi-card__name { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+.pi-card__name span { font-size: 15px; font-weight: 500; color: var(--text-2); margin-left: 8px; }
+.pi-card__title { font-size: 14px; color: var(--text); margin-top: 6px; }
+.pi-card__sub { font-size: 13px; color: var(--text-3); margin-top: 2px; }
+
+.member__name-en { font-size: 13px; font-weight: 400; color: var(--text-3); margin-left: 6px; }
+.member__links { display: flex; gap: 12px; align-items: center; margin-top: 8px; }
+.member__links a { display: flex; color: var(--text-3); }
+.member__links a:hover { color: var(--text); }
+.member__links:empty { display: none; }
+
+/* ===== INSTITUTE ===== */
+.inst-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(20px, 3vw, 28px);
+}
+
+.inst-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: clamp(28px, 3.5vw, 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.inst-card__title {
+  font-size: clamp(19px, 2.2vw, 22px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  margin: 0 0 12px;
+}
+
+.inst-card__body {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-2);
+  margin: 0;
+  flex: 1;
+}
+
+.inst-card__link { font-size: 14px; margin-top: 20px; }
+
+.inst-cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(20px, 3vw, 32px);
+  flex-wrap: wrap;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: clamp(28px, 3.5vw, 40px);
+  background: var(--surface);
+}
+
+.inst-cta .inst-card__body { margin-top: 0; max-width: 36em; }
+.inst-cta .btn { white-space: nowrap; }
+
+/* ===== SKELETON (loading.tsx) ===== */
+.sk-page { padding-bottom: clamp(80px, 10vw, 140px); }
+
+.sk {
+  background: var(--surface);
+  animation: sk-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes sk-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sk { animation: none; }
+}

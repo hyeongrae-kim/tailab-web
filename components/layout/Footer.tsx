@@ -19,11 +19,14 @@ export default function Footer() {
               <Link href="/research" className="footer__link">
                 연구
               </Link>
+              <Link href="/people" className="footer__link">
+                구성원
+              </Link>
               <Link href="/publications" className="footer__link">
                 논문
               </Link>
-              <Link href="/members" className="footer__link">
-                구성원
+              <Link href="/institute" className="footer__link">
+                연구소
               </Link>
             </div>
           </div>

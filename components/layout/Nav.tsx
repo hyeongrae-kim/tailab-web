@@ -6,11 +6,12 @@ import ThemeToggle from './ThemeToggle';
 
 const NAV_ITEMS = [
   { label: '홈', href: '/' },
-  { label: '교수', href: '/professor' },
-  { label: '구성원', href: '/members' },
   { label: '연구', href: '/research' },
+  { label: '교수', href: '/professor' },
+  { label: '구성원', href: '/people' },
   { label: '논문', href: '/publications' },
-  { label: '소식', href: '/news' },
+  { label: '연구소', href: '/institute' },
+  { label: '소식', href: '/gallery' },
 ];
 
 function isActive(pathname: string, href: string): boolean {
@@ -34,6 +35,7 @@ export default function Nav() {
             {it.label}
           </Link>
         ))}
+        {/* 지원 페이지는 추후 추가 예정 — 이동 없음 */}
         <a href="#" className="nav__cta">
           지원
         </a>

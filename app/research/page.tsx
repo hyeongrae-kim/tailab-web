@@ -1,60 +1,76 @@
 import type { Metadata } from 'next';
-import { getResearchAreas, getPartners, getProjects } from '@/lib/notion';
+import { getSiteCopy, getResearchAreas, getProjects } from '@/lib/notion';
+import { PROJECT_ROLE_LABEL } from '@/lib/format';
 import PageHeader from '@/components/common/PageHeader';
 import Badge from '@/components/common/Badge';
 
-export const metadata: Metadata = { title: '연구' };
+export const metadata: Metadata = { title: 'Research' };
 
 export default async function ResearchPage() {
-  const [areas, partners, projects] = await Promise.all([
+  const [t, areas, projects] = await Promise.all([
+    getSiteCopy(),
     getResearchAreas(),
-    getPartners(),
     getProjects(),
   ]);
+  const phil = t('about.philosophy');
 
   return (
     <div className="container container--top">
       <PageHeader eyebrow="Research" title="연구">
-        신뢰할 수 있고 인간과 협력하는 인공지능을 위해, 기초 연구부터 산업·국가 과제까지 폭넓게 수행합니다.
+        {phil.en}
       </PageHeader>
 
-      {/* RESEARCH AREAS */}
+      {/* PHILOSOPHY — 제목 왼쪽 · 본문 오른쪽 2단 */}
       <section className="subsection">
-        <div className="subsection__head" style={{ maxWidth: '42em' }}>
-          <div className="eyebrow eyebrow--label">Research Areas</div>
-          <h2 className="subsection__title">신뢰할 수 있는 AI를 향한 네 가지 연구 축</h2>
-          <p className="subsection__desc">언어모델의 추론부터 인간과의 협력까지, 서로 맞닿은 네 주제를 깊이 있게 다룹니다.</p>
+        <div className="about__grid">
+          <div>
+            <div className="section__eyebrow">Philosophy</div>
+            <h2 className="section__title">
+              {phil.heading.split('\n').map((line, i) => (
+                <span key={i}>
+                  {i > 0 ? <br /> : null}
+                  {line}
+                </span>
+              ))}
+            </h2>
+          </div>
+          <div>
+            {phil.body.split('\n').filter(Boolean).map((para, i) => (
+              <p key={i} className="about__body">{para}</p>
+            ))}
+          </div>
         </div>
-        <div className="area-grid">
-          {areas.map((a) => (
+      </section>
+
+      {/* RESEARCH AREAS — 3열 고정 카드 */}
+      <section className="subsection">
+        <div className="subsection__head">
+          <div className="eyebrow eyebrow--label">Research Areas</div>
+          <h2 className="subsection__title">연구 영역</h2>
+        </div>
+        <div className="area-grid area-grid--three">
+          {areas.map((a) => {
+            // "Human-Governed · 인간이 통제하는 AI" → 영문 소제목 + 한글 제목
+            const [en, ko] = a.title.includes(' · ') ? a.title.split(' · ') : [null, a.title];
+            return (
             <article key={a.id} className="area-card">
               <div className="area-card__no">{a.no}</div>
               <div className="area-card__inner">
                 <div className="area-card__bar" />
-                <h3 className="area-card__title">{a.title}</h3>
-                <p className="area-card__desc">{a.description}</p>
-                <div className="area-card__tags">
-                  {a.tags.map((t) => (
-                    <span key={t} className="tag">{t}</span>
+                {en ? <div className="area-card__eyebrow">{en}</div> : null}
+                <h3 className="area-card__title">
+                  {ko.split('\n').map((line, i) => (
+                    <span key={i}>
+                      {i > 0 ? <br /> : null}
+                      {line}
+                    </span>
                   ))}
-                </div>
+                </h3>
+                <p className="area-card__desc">{a.description}</p>
               </div>
             </article>
-          ))}
-        </div>
-      </section>
-
-      {/* PARTNERS */}
-      <section className="subsection">
-        <div className="subsection__head">
-          <div className="eyebrow eyebrow--label">Partners</div>
-          <h2 className="subsection__title">연구를 함께 만드는 파트너들</h2>
-          <p className="subsection__desc">국내외 기업 및 연구기관과 공동 연구, 기술 자문, 인턴십을 통해 협력하고 있습니다.</p>
-        </div>
-        <div className="partner-grid">
-          {partners.map((p) => (
-            <div key={p} className="partner"><span>{p}</span></div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -62,21 +78,20 @@ export default async function ResearchPage() {
       <section className="subsection subsection--last">
         <div className="subsection__head">
           <div className="eyebrow eyebrow--label">Projects</div>
-          <h2 className="subsection__title">수행 중인 연구 과제</h2>
-          <p className="subsection__desc">국가 연구개발 사업과 기업 산학협력 과제를 통해 연구를 실증합니다.</p>
+          <h2 className="subsection__title">수행 연구 과제</h2>
         </div>
         <div className="project-list">
           {projects.map((p) => (
-            <article key={p.id} className="project">
+            <article key={p.id} className="project project--single">
               <div>
                 <div className="project__meta">
-                  <Badge solid={p.type === 'national'}>{p.type === 'national' ? '국가과제' : '기업과제'}</Badge>
+                  <Badge solid={p.role === 'pi'}>{PROJECT_ROLE_LABEL[p.role]}</Badge>
                   <span className="project__funder">{p.funder}</span>
+                  {p.field ? <span className="project__funder">· {p.field}</span> : null}
                 </div>
                 <h3 className="project__title">{p.title}</h3>
-                <div className="project__role">{p.role}</div>
+                <div className="project__role">{p.description}</div>
               </div>
-              <div className="project__period">{p.period}</div>
             </article>
           ))}
         </div>

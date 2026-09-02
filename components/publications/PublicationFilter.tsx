@@ -2,16 +2,8 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
-import type { Publication, PublicationCategory } from '@/lib/types';
+import type { Publication } from '@/lib/types';
 import Badge from '@/components/common/Badge';
-
-type TypeFilter = 'all' | PublicationCategory;
-
-const TYPE_DEFS: { key: TypeFilter; label: string }[] = [
-  { key: 'all', label: '전체' },
-  { key: 'intl', label: '국제' },
-  { key: 'domestic', label: '국내' },
-];
 
 export default function PublicationFilter({ publications }: { publications: Publication[] }) {
   const pathname = usePathname();
@@ -23,31 +15,18 @@ export default function PublicationFilter({ publications }: { publications: Publ
     [publications],
   );
 
-  const rawType = params.get('type');
-  const type: TypeFilter =
-    rawType === 'intl' || rawType === 'domestic' ? rawType : 'all';
   const rawYear = params.get('year');
   const year: 'all' | number =
     rawYear && years.includes(Number(rawYear)) ? Number(rawYear) : 'all';
 
-  function setParam(next: { type?: TypeFilter; year?: 'all' | number }) {
+  function setParam(next: { year: 'all' | number }) {
     const sp = new URLSearchParams(params.toString());
-    if (next.type !== undefined) {
-      next.type === 'all' ? sp.delete('type') : sp.set('type', next.type);
-    }
-    if (next.year !== undefined) {
-      next.year === 'all' ? sp.delete('year') : sp.set('year', String(next.year));
-    }
+    next.year === 'all' ? sp.delete('year') : sp.set('year', String(next.year));
     const qs = sp.toString();
     router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false });
   }
 
-  const typeCount = (key: TypeFilter) =>
-    key === 'all' ? publications.length : publications.filter((p) => p.category === key).length;
-
-  const filtered = publications.filter(
-    (p) => (type === 'all' || p.category === type) && (year === 'all' || p.year === year),
-  );
+  const filtered = publications.filter((p) => year === 'all' || p.year === year);
 
   const groups = useMemo(() => {
     const gy = [...new Set(filtered.map((p) => p.year))].sort((a, b) => b - a);
@@ -57,22 +36,6 @@ export default function PublicationFilter({ publications }: { publications: Publ
   return (
     <>
       <div className="pub-filters">
-        <div className="pub-filter-row">
-          <span className="pub-filter-row__label">유형</span>
-          <div className="pub-filter-row__pills">
-            {TYPE_DEFS.map((d) => (
-              <button
-                key={d.key}
-                type="button"
-                className={`pill${d.key === type ? ' is-active' : ''}`}
-                onClick={() => setParam({ type: d.key })}
-              >
-                {d.label}
-                <span className="pill__count">{typeCount(d.key)}</span>
-              </button>
-            ))}
-          </div>
-        </div>
         <div className="pub-filter-row">
           <span className="pub-filter-row__label">연도</span>
           <div className="pub-filter-row__pills">
@@ -116,15 +79,14 @@ export default function PublicationFilter({ publications }: { publications: Publ
                   <article key={p.id} className="pub">
                     <div>
                       <div className="pub__meta">
-                        <Badge solid={p.category === 'intl'}>
-                          {p.category === 'intl' ? 'International' : '국내'}
-                        </Badge>
-                        <span className="pub__venue">{p.venue}</span>
+                        <Badge solid={false}>{p.venue}</Badge>
                       </div>
                       <h3 className="pub__title">{p.title}</h3>
                       <div className="pub__authors">{p.authors}</div>
                     </div>
-                    <a href={p.pdfUrl ?? '#'} className="pdf-link">PDF</a>
+                    {p.linkUrl ? (
+                      <a href={p.linkUrl} target="_blank" rel="noreferrer" className="pdf-link">Link</a>
+                    ) : null}
                   </article>
                 ))}
               </div>

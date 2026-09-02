@@ -12,10 +12,10 @@ import type {
   Project,
   CvEntry,
   Professor,
+  SiteCopy,
   NewsCategory,
-  PublicationCategory,
   MemberCategory,
-  ProjectType,
+  ProjectRole,
   CvKind,
 } from './types';
 import * as sample from './sample-data';
@@ -124,8 +124,7 @@ export const getPublications = unstable_cache(
         authors: plainText(p.authors),
         venue: plainText(p.venue),
         year: numberOf(p.year),
-        category: (selectKey(p.category) || 'intl') as PublicationCategory,
-        pdfUrl: urlOf(p.pdf),
+        linkUrl: urlOf(p.link),
         featured: checkbox(p.featured),
       };
     });
@@ -144,10 +143,16 @@ export const getMembers = unstable_cache(
         return {
           id: r.id,
           name: plainText(p.name),
-          role: plainText(p.role),
-          note: plainText(p.note),
           category: (selectKey(p.category) || 'phd') as MemberCategory,
           order: numberOf(p.order),
+          nameEn: plainText(p.nameEn) || undefined,
+          role: plainText(p.role) || undefined,
+          roleEn: plainText(p.roleEn) || undefined,
+          interests: plainText(p.interests) || undefined,
+          homepage: urlOf(p.homepage),
+          github: urlOf(p.github),
+          linkedin: urlOf(p.linkedin),
+          email: plainText(p.email) || undefined,
           photoUrl: await mirrorImage(fileUrl(p.photo)),
         };
       }),
@@ -167,6 +172,7 @@ export const getResearchAreas = unstable_cache(
         id: r.id,
         no: String(numberOf(p.order, i + 1)).padStart(2, '0'),
         title: plainText(p.title),
+        subtitle: plainText(p.subtitle) || undefined,
         description: plainText(p.description),
         tags: multiSelect(p.tags),
       };
@@ -185,24 +191,15 @@ export const getProjects = unstable_cache(
       return {
         id: r.id,
         title: plainText(p.title),
-        type: (selectKey(p.type) || 'company') as ProjectType,
+        role: (selectKey(p.role) || 'co') as ProjectRole,
         funder: plainText(p.funder),
-        role: plainText(p.role),
-        period: plainText(p.period),
+        field: plainText(p.field),
+        description: plainText(p.description),
       };
     });
   },
   ['projects'],
   { tags: ['projects'], revalidate: REVALIDATE },
-);
-
-export const getPartners = unstable_cache(
-  async (): Promise<string[]> => {
-    // 파트너는 단순 문자열 목록 — 별도 DB 없이 샘플/연구 DB 옵션으로 관리 가능.
-    return sample.samplePartners;
-  },
-  ['partners'],
-  { tags: ['research-areas'], revalidate: REVALIDATE },
 );
 
 export const getProfessor = unstable_cache(
@@ -252,6 +249,31 @@ export const getCvEntries = unstable_cache(
   { tags: ['professor'], revalidate: REVALIDATE },
 );
 
+// 페이지 단발 문구(About·Institute). 캐시는 배열, 조회는 key → SiteCopy (없으면 빈 문구로 폴백).
+const fetchSiteCopy = unstable_cache(
+  async (): Promise<SiteCopy[]> => {
+    if (!notion) return sample.sampleSiteCopy;
+    const rows = await queryAll(env.db.site);
+    return rows.map((r): SiteCopy => {
+      const p = r.properties as Props;
+      return {
+        key: plainText(p.key),
+        heading: plainText(p.heading),
+        body: plainText(p.body),
+        en: plainText(p.en) || undefined,
+        link: urlOf(p.link),
+      };
+    });
+  },
+  ['site'],
+  { tags: ['site'], revalidate: REVALIDATE },
+);
+
+export async function getSiteCopy(): Promise<(key: string) => SiteCopy> {
+  const list = await fetchSiteCopy();
+  return (key) => list.find((c) => c.key === key) ?? { key, heading: '', body: '' };
+}
+
 // 웹훅이 무효화할 수 있는 전체 태그 목록.
 export const ALL_TAGS = [
   'news',
@@ -260,4 +282,5 @@ export const ALL_TAGS = [
   'research-areas',
   'projects',
   'professor',
+  'site',
 ] as const;

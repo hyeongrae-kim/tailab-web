@@ -1,15 +1,8 @@
 // 도메인 콘텐츠 타입. Notion raw → 이 타입으로 변환(매핑)은 lib/notion.ts 에 가둔다.
 
 export type NewsCategory = 'notice' | 'award' | 'paper' | 'talk';
-export type PublicationCategory = 'intl' | 'domestic';
-export type MemberCategory =
-  | 'postdoc'
-  | 'phd'
-  | 'ms'
-  | 'undergrad'
-  | 'visiting'
-  | 'alumni';
-export type ProjectType = 'national' | 'company';
+export type MemberCategory = 'research-professor' | 'phd' | 'ms' | 'researcher' | 'alumni';
+export type ProjectRole = 'pi' | 'co';
 export type CvKind = 'education' | 'experience' | 'award';
 
 export interface News {
@@ -27,18 +20,24 @@ export interface Publication {
   authors: string;
   venue: string;
   year: number;
-  category: PublicationCategory;
-  pdfUrl?: string;
+  linkUrl?: string; // 논문 링크(게재지·아카이브 등, PDF 아니어도 됨)
   featured?: boolean;
 }
 
+// 이름 외 전부 선택 — Notion에 이름만 먼저 넣고 나머지는 나중에 채워도 카드가 뜬다.
 export interface Member {
   id: string;
   name: string;
-  role: string;
-  note: string;
   category: MemberCategory;
   order: number;
+  nameEn?: string;
+  role?: string;
+  roleEn?: string;
+  interests?: string;
+  homepage?: string;
+  github?: string;
+  linkedin?: string;
+  email?: string;
   photoUrl?: string;
 }
 
@@ -46,6 +45,7 @@ export interface ResearchArea {
   id: string;
   no: string; // "01", "02" ...
   title: string;
+  subtitle?: string; // 영문 한 줄
   description: string;
   tags: string[];
 }
@@ -53,10 +53,10 @@ export interface ResearchArea {
 export interface Project {
   id: string;
   title: string;
-  type: ProjectType;
+  role: ProjectRole;
   funder: string;
-  role: string;
-  period: string;
+  field: string; // 연구 분야
+  description: string; // 홈페이지 소개 문안
 }
 
 export interface CvEntry {
@@ -82,4 +82,13 @@ export interface Professor {
   photoUrl?: string;
   scholarUrl?: string;
   cvUrl?: string;
+}
+
+// 페이지 단발 문구(About·Institute 등). key 로 조회.
+export interface SiteCopy {
+  key: string;
+  heading: string;
+  body: string;
+  en?: string;
+  link?: string;
 }

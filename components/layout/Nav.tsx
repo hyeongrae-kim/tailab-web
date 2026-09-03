@@ -28,6 +28,20 @@ export default function Nav() {
     setOpen(false);
   }, [pathname]);
 
+  // 메뉴 열림을 히스토리 더미 엔트리로 만들어, 백버튼이 페이지 이동 대신 '메뉴 닫기'로 동작하게 한다.
+  useEffect(() => {
+    if (!open) return;
+    history.pushState({ navMenu: true }, '');
+    const onPop = () => setOpen(false);
+    window.addEventListener('popstate', onPop);
+    return () => {
+      window.removeEventListener('popstate', onPop);
+      // 백버튼이 아닌 방법(X·스크림 터치)으로 닫혔으면 더미 엔트리를 걷어낸다.
+      // 링크로 이동한 경우엔 이미 새 엔트리가 쌓여 있으므로 건드리지 않는다.
+      if (history.state?.navMenu) history.back();
+    };
+  }, [open]);
+
   return (
     <nav className="nav">
       <Link href="/" className="nav__brand">
@@ -44,6 +58,8 @@ export default function Nav() {
           {open ? <path d="M5 5l14 14M19 5L5 19" /> : <path d="M3 6h18M3 12h18M3 18h18" />}
         </svg>
       </button>
+      {/* 메뉴 열림 시 바깥 영역 터치로 닫는 투명 스크림 */}
+      {open ? <div className="nav__scrim" onClick={() => setOpen(false)} /> : null}
       <div className={`nav__links${open ? ' is-open' : ''}`}>
         {NAV_ITEMS.map((it) => (
           <Link

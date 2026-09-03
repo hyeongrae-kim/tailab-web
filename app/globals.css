@@ -12,6 +12,7 @@
   --surface: #f2f2f2;
   --nav-bg: rgba(255, 255, 255, 0.85);
   --ghost: rgba(255, 255, 255, 0.6);
+  --scrim: rgba(0, 0, 0, 0.3);
   color-scheme: light;
 }
 
@@ -24,6 +25,7 @@
   --surface: #1e1e1e;
   --nav-bg: rgba(18, 18, 18, 0.82);
   --ghost: rgba(18, 18, 18, 0.5);
+  --scrim: rgba(0, 0, 0, 0.5);
   color-scheme: dark;
 }
 
@@ -152,7 +154,8 @@ a { color: inherit; }
 }
 
 /* 모바일: 링크 줄바꿈 대신 햄버거 버튼 + 드롭다운 메뉴 */
-.nav__menu-btn {
+.nav__menu-btn,
+.nav__scrim {
   display: none;
 }
 
@@ -194,6 +197,18 @@ a { color: inherit; }
 
   .nav__links.is-open {
     display: flex;
+  }
+
+  /* 메뉴 바깥 영역 클릭 캐처 + 딤 — nav 바 바로 아래부터 화면 끝까지 (헤더는 딤 제외).
+     DOM에서 .nav__links 앞에 있어 드롭다운이 스크림 위에 그려진다. */
+  .nav__scrim {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background: var(--scrim);
   }
 
   .nav__link {

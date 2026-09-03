@@ -151,6 +151,67 @@ a { color: inherit; }
   flex-shrink: 0;
 }
 
+/* 모바일: 링크 줄바꿈 대신 햄버거 버튼 + 드롭다운 메뉴 */
+.nav__menu-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* 모바일에선 반투명·블러 없이 불투명 배경 */
+  .nav {
+    background: var(--bg);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .nav__menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .nav__links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 12px 20px 20px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav__links.is-open {
+    display: flex;
+  }
+
+  .nav__link {
+    padding: 10px 0;
+    font-size: 16px;
+  }
+
+  .nav__cta {
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  .nav__links .theme-toggle {
+    margin-top: 12px;
+    align-self: flex-start;
+  }
+}
+
 /* ===== SHARED PRIMITIVES ===== */
 .eyebrow {
   font-family: ui-monospace, monospace;
@@ -382,17 +443,18 @@ a { color: inherit; }
   margin-bottom: 12px;
 }
 
-/* About */
+/* About — 세로 전환은 nav와 동일한 768px */
 .about__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: clamp(40px, 6vw, 80px);
   align-items: start;
 }
 
 /* 2단일 때 오른쪽 열 첫 줄을 eyebrow가 아닌 제목 첫 줄에 맞춤(eyebrow 12px + 마진 12px) */
 .about__grid > * + * { padding-top: 24px; }
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  .about__grid { grid-template-columns: 1fr; }
   .about__grid > * + * { padding-top: 0; } /* 세로 스택이면 원복 */
 }
 
@@ -811,6 +873,12 @@ a { color: inherit; }
   gap: 24px;
 }
 
+.cv-aside__body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .cv-portrait {
   aspect-ratio: 3 / 4;
   border-radius: 10px;
@@ -854,6 +922,34 @@ a { color: inherit; }
   border: 1px solid var(--border);
   padding: 8px 14px;
   border-radius: 6px;
+}
+
+/* 모바일: aside를 [사진 | 이름·소속·연락처·링크] 두 컬럼 가로 배치.
+   기본 규칙과 특이도가 같으므로 반드시 기본 정의들 뒤에 둔다. */
+@media (max-width: 768px) {
+  .cv-grid { grid-template-columns: 1fr; }
+
+  .cv-aside {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* 데스크톱 300px의 0.75배, 화면이 좁으면 37.5%까지만 */
+  .cv-portrait { width: min(225px, 37.5%); flex-shrink: 0; }
+  .cv-aside__body { flex: 1; min-width: 0; gap: 14px; }
+
+  .cv-name { font-size: 24px; }
+  .cv-name-en { font-size: 15px; }
+  .cv-title { margin-top: 8px; }
+  .cv-contact { font-size: 13px; padding-top: 14px; }
+  .cv-contact__row span:last-child { overflow-wrap: anywhere; } /* 좁은 폭에서 이메일 줄바꿈 */
+}
+
+/* 초소형: 사진이 더 작아지는 대신 크기 고정 + 다시 세로 스택 */
+@media (max-width: 480px) {
+  .cv-aside { flex-direction: column; align-items: flex-start; }
+  .cv-portrait { width: 160px; }
 }
 
 .cv-main { display: flex; flex-direction: column; }
@@ -1110,7 +1206,7 @@ a { color: inherit; }
 .area-grid--three .area-card__inner { padding-top: 56px; }
 /* 제목을 2줄 높이로 고정 → 1·2번 카드(한 줄)도 본문 시작점이 3번 카드와 동일 */
 .area-grid--three .area-card__title { min-height: 2.6em; }
-@media (max-width: 900px) { .area-grid--three { grid-template-columns: 1fr; } }
+@media (max-width: 768px) { .area-grid--three { grid-template-columns: 1fr; } }
 .subsection__en { font-size: 14px; font-style: italic; color: var(--text-3); margin: 8px 0 0; }
 /* 카드 제목 위 영문 소제목 — 홈 ABOUT US(eyebrow)와 동일 톤 */
 .area-card__eyebrow {
@@ -1152,8 +1248,11 @@ a { color: inherit; }
 /* ===== INSTITUTE ===== */
 .inst-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: clamp(20px, 3vw, 28px);
+}
+@media (max-width: 768px) {
+  .inst-grid { grid-template-columns: 1fr; }
 }
 
 .inst-card {

@@ -5,10 +5,12 @@ import Footer from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
   title: {
-    default: 'TAILAB · Trustworthy AI Lab',
+    default: 'TAILAB',
     template: '%s · TAILAB',
   },
   description: '신뢰할 수 있고 인간과 협력하는 인공지능을 연구합니다.',
+  // 링크 공유 미리보기(og:title)는 모든 페이지에서 'TAILAB'으로 고정
+  openGraph: { title: 'TAILAB' },
 };
 
 // 페인트 전에 테마를 적용해 FOUC를 방지하는 부트스트랩 스크립트.

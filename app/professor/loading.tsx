@@ -6,13 +6,15 @@ export default function Loading() {
       <Sk w={260} h={12} style={{ marginBottom: 40 }} />
       <div className="cv-grid">
         <aside className="cv-aside">
-          <Sk w="100%" h={300} r={12} />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <Sk w={120} h={30} />
-            <Sk w={160} h={15} />
-            <Sk w={200} h={14} />
+          <div className="sk cv-portrait" />
+          <div className="cv-aside__body">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <Sk w={120} h={30} />
+              <Sk w={160} h={15} />
+              <Sk w={200} h={14} />
+            </div>
+            <SkLines n={2} w="85%" />
           </div>
-          <SkLines n={2} w="85%" />
         </aside>
         <main className="cv-main" style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
           <SkLines n={6} />

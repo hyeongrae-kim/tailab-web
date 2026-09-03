@@ -36,23 +36,25 @@ export default async function ProfessorPage() {
       <div className="cv-grid">
         <aside className="cv-aside">
           <Thumb className="cv-portrait" url={prof.photoUrl} label="portrait" sizes="300px" />
-          <div>
-            <h1 className="cv-name">{prof.name}</h1>
-            <div className="cv-name-en">{prof.nameEn}</div>
-            <div className="cv-title">{prof.position}</div>
-            <div className="cv-dept">{prof.dept}</div>
-          </div>
-          <div className="cv-contact">
-            <div className="cv-contact__row"><span>Email</span><span>{prof.email}</span></div>
-            {prof.office ? <div className="cv-contact__row"><span>Office</span><span>{prof.office}</span></div> : null}
-            {prof.phone ? <div className="cv-contact__row"><span>Phone</span><span>{prof.phone}</span></div> : null}
-          </div>
-          {prof.scholarUrl || prof.cvUrl ? (
-            <div className="cv-links">
-              {prof.scholarUrl ? <a href={prof.scholarUrl} target="_blank" rel="noreferrer" className="cv-link">Google Scholar</a> : null}
-              {prof.cvUrl ? <a href={prof.cvUrl} target="_blank" rel="noreferrer" className="cv-link">CV (PDF)</a> : null}
+          <div className="cv-aside__body">
+            <div>
+              <h1 className="cv-name">{prof.name}</h1>
+              <div className="cv-name-en">{prof.nameEn}</div>
+              <div className="cv-title">{prof.position}</div>
+              <div className="cv-dept">{prof.dept}</div>
             </div>
-          ) : null}
+            <div className="cv-contact">
+              <div className="cv-contact__row"><span>Email</span><span>{prof.email}</span></div>
+              {prof.office ? <div className="cv-contact__row"><span>Office</span><span>{prof.office}</span></div> : null}
+              {prof.phone ? <div className="cv-contact__row"><span>Phone</span><span>{prof.phone}</span></div> : null}
+            </div>
+            {prof.scholarUrl || prof.cvUrl ? (
+              <div className="cv-links">
+                {prof.scholarUrl ? <a href={prof.scholarUrl} target="_blank" rel="noreferrer" className="cv-link">Google Scholar</a> : null}
+                {prof.cvUrl ? <a href={prof.cvUrl} target="_blank" rel="noreferrer" className="cv-link">CV (PDF)</a> : null}
+              </div>
+            ) : null}
+          </div>
         </aside>
 
         <main className="cv-main">

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import ThemeToggle from './ThemeToggle';
@@ -20,12 +21,30 @@ function isActive(pathname: string, href: string): boolean {
 
 export default function Nav() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  // 라우트 이동 시 모바일 메뉴 닫기
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
   return (
     <nav className="nav">
       <Link href="/" className="nav__brand">
         TAILAB
       </Link>
-      <div className="nav__links">
+      <button
+        type="button"
+        className="nav__menu-btn"
+        aria-label={open ? '메뉴 닫기' : '메뉴 열기'}
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+          {open ? <path d="M5 5l14 14M19 5L5 19" /> : <path d="M3 6h18M3 12h18M3 18h18" />}
+        </svg>
+      </button>
+      <div className={`nav__links${open ? ' is-open' : ''}`}>
         {NAV_ITEMS.map((it) => (
           <Link
             key={it.href}

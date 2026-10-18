@@ -108,7 +108,7 @@ export const getNews = unstable_cache(
       }),
     );
   },
-  ['news'],
+  ['news', hasNotion ? 'notion' : 'sample', env.db.news],
   { tags: ['news'], revalidate: REVALIDATE },
 );
 
@@ -129,7 +129,7 @@ export const getPublications = unstable_cache(
       };
     });
   },
-  ['publications'],
+  ['publications', hasNotion ? 'notion' : 'sample', env.db.publications],
   { tags: ['publications'], revalidate: REVALIDATE },
 );
 
@@ -158,7 +158,7 @@ export const getMembers = unstable_cache(
       }),
     );
   },
-  ['members'],
+  ['members', hasNotion ? 'notion' : 'sample', env.db.members],
   { tags: ['members'], revalidate: REVALIDATE },
 );
 
@@ -178,7 +178,7 @@ export const getResearchAreas = unstable_cache(
       };
     });
   },
-  ['research-areas'],
+  ['research-areas', hasNotion ? 'notion' : 'sample', env.db.research],
   { tags: ['research-areas'], revalidate: REVALIDATE },
 );
 
@@ -198,7 +198,7 @@ export const getProjects = unstable_cache(
       };
     });
   },
-  ['projects'],
+  ['projects', hasNotion ? 'notion' : 'sample', env.db.projects],
   { tags: ['projects'], revalidate: REVALIDATE },
 );
 
@@ -225,7 +225,7 @@ export const getProfessor = unstable_cache(
       cvUrl: urlOf(p.cvUrl),
     };
   },
-  ['professor'],
+  ['professor', hasNotion ? 'notion' : 'sample', env.db.professor],
   { tags: ['professor'], revalidate: REVALIDATE },
 );
 
@@ -245,7 +245,7 @@ export const getCvEntries = unstable_cache(
       };
     });
   },
-  ['cv'],
+  ['cv', hasNotion ? 'notion' : 'sample', env.db.cv],
   { tags: ['professor'], revalidate: REVALIDATE },
 );
 
@@ -265,7 +265,7 @@ const fetchSiteCopy = unstable_cache(
       };
     });
   },
-  ['site'],
+  ['site', hasNotion ? 'notion' : 'sample', env.db.site],
   { tags: ['site'], revalidate: REVALIDATE },
 );
 

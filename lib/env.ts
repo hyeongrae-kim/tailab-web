@@ -11,7 +11,8 @@ export const env = {
     projects: process.env.NOTION_DB_PROJECTS ?? '',
     professor: process.env.NOTION_DB_PROFESSOR ?? '',
     cv: process.env.NOTION_DB_CV ?? '',
-    site: process.env.NOTION_DB_SITE ?? '',
+    researchSiteCopy: process.env.NOTION_DB_RESEARCH_SITE_COPY ?? '',
+    instituteSiteCopy: process.env.NOTION_DB_INSTITUTE_SITE_COPY ?? '',
   },
 };
 

@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getSiteCopy } from '@/lib/notion';
+import { getInstituteSiteCopy } from '@/lib/notion';
 import PageHeader from '@/components/common/PageHeader';
 
 export const metadata: Metadata = { title: 'Institute' };
 
 export default async function InstitutePage() {
-  const t = await getSiteCopy();
+  const t = await getInstituteSiteCopy();
   const center = t('institute.center');
   const director = t('institute.director');
   const direction = t('institute.direction');

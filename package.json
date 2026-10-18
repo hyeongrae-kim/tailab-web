@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "setup:notion": "node --experimental-strip-types scripts/setup-notion.ts"
+    "setup:notion": "node --experimental-strip-types scripts/setup-notion.ts",
+    "test": "node --experimental-strip-types --test tests/*.test.ts"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",

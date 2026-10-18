@@ -84,7 +84,7 @@ export interface Professor {
   cvUrl?: string;
 }
 
-// 페이지 단발 문구(About·Institute 등). key 로 조회.
+// 연구/연구소 DB의 페이지 문구. key 로 조회.
 export interface SiteCopy {
   key: string;
   heading: string;

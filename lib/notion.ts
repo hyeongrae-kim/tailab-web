@@ -249,30 +249,44 @@ export const getCvEntries = unstable_cache(
   { tags: ['professor'], revalidate: REVALIDATE },
 );
 
-// 페이지 단발 문구(About·Institute). 캐시는 배열, 조회는 key → SiteCopy (없으면 빈 문구로 폴백).
-const fetchSiteCopy = unstable_cache(
-  async (): Promise<SiteCopy[]> => {
-    if (!notion) return sample.sampleSiteCopy;
-    const rows = await queryAll(env.db.site);
-    return rows.map((r): SiteCopy => {
-      const p = r.properties as Props;
-      return {
-        key: plainText(p.key),
-        heading: plainText(p.heading),
-        body: plainText(p.body),
-        en: plainText(p.en) || undefined,
-        link: urlOf(p.link),
-      };
-    });
-  },
-  ['site', hasNotion ? 'notion' : 'sample', env.db.site],
-  { tags: ['site'], revalidate: REVALIDATE },
-);
-
-export async function getSiteCopy(): Promise<(key: string) => SiteCopy> {
-  const list = await fetchSiteCopy();
-  return (key) => list.find((c) => c.key === key) ?? { key, heading: '', body: '' };
+// 연구/연구소 문구는 각 DB에서 읽고 독립적으로 캐시한다.
+// 캐시는 직렬화 가능한 배열, 공개 함수는 key → SiteCopy 조회 함수를 반환한다.
+function siteCopyReader(
+  databaseId: string,
+  tag: string,
+  sampleRows: SiteCopy[],
+): () => Promise<(key: string) => SiteCopy> {
+  const fetchCopy = unstable_cache(
+    async (): Promise<SiteCopy[]> => {
+      if (!notion) return sampleRows;
+      if (!databaseId) throw new Error(`Missing Notion database ID for ${tag}`);
+      const rows = await queryAll(databaseId);
+      return rows.map((r): SiteCopy => {
+        const p = r.properties as Props;
+        return {
+          key: plainText(p.key),
+          heading: plainText(p.heading),
+          body: plainText(p.body),
+          en: plainText(p.en) || undefined,
+          link: urlOf(p.link),
+        };
+      });
+    },
+    [tag, hasNotion ? 'notion' : 'sample', databaseId],
+    { tags: [tag], revalidate: REVALIDATE },
+  );
+  return async () => {
+    const list = await fetchCopy();
+    return (key) => list.find((c) => c.key === key) ?? { key, heading: '', body: '' };
+  };
 }
+
+export const getResearchSiteCopy = siteCopyReader(
+  env.db.researchSiteCopy, 'research-site-copy', sample.sampleResearchSiteCopy,
+);
+export const getInstituteSiteCopy = siteCopyReader(
+  env.db.instituteSiteCopy, 'institute-site-copy', sample.sampleInstituteSiteCopy,
+);
 
 // 웹훅이 무효화할 수 있는 전체 태그 목록.
 export const ALL_TAGS = [
@@ -282,5 +296,6 @@ export const ALL_TAGS = [
   'research-areas',
   'projects',
   'professor',
-  'site',
+  'research-site-copy',
+  'institute-site-copy',
 ] as const;

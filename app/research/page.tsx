@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { getSiteCopy, getResearchAreas, getProjects } from '@/lib/notion';
+import { getResearchSiteCopy, getResearchAreas, getProjects } from '@/lib/notion';
 import { PROJECT_ROLE_LABEL } from '@/lib/format';
 import PageHeader from '@/components/common/PageHeader';
 import Badge from '@/components/common/Badge';
@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: 'Research' };
 
 export default async function ResearchPage() {
   const [t, areas, projects] = await Promise.all([
-    getSiteCopy(),
+    getResearchSiteCopy(),
     getResearchAreas(),
     getProjects(),
   ]);

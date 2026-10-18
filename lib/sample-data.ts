@@ -104,3 +104,7 @@ export const sampleSiteCopy: SiteCopy[] = [
   // Apply
   { key: 'apply.contact', heading: 'Contact', body: '연구 협력, 학생 연구 참여 및 기타 문의를 환영합니다.', link: 'mailto:inow3555@knu.ac.kr' },
 ];
+
+// 기존 초기화 도구용 전체 목록은 보존하고, 앱은 페이지별 문구만 사용한다.
+export const sampleResearchSiteCopy = sampleSiteCopy.filter((copy) => copy.key === 'about.philosophy');
+export const sampleInstituteSiteCopy = sampleSiteCopy.filter((copy) => copy.key.startsWith('institute.'));
